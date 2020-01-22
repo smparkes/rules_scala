@@ -16,12 +16,19 @@ load(
     _coverage_replacements_provider = "coverage_replacements_provider",
 )
 
+def get_provider(ctx):
+    if ctx.attr.toolchain:
+      return ctx.attr.toolchain[platform_common.ToolchainInfo]
+    else:
+      print("C using default for", ctx)
+      return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+
 def phase_scalatest_write_executable(ctx, p):
     # jvm_flags passed in on the target override scala_test_jvm_flags passed in on the
     # toolchain
     final_jvm_flags = first_non_empty(
         ctx.attr.jvm_flags,
-        ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"].scala_test_jvm_flags,
+        get_provider(ctx).scala_test_jvm_flags,
     )
     args = struct(
         rjars = p.coverage_runfiles.rjars,

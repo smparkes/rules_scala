@@ -221,6 +221,8 @@ def _compile_or_empty(
         if len(java_srcs) != 0:
             unused_dependency_checker_mode = "off"
 
+        scalac = ctx.attr.toolchain[platform_common.ToolchainInfo].scalac
+
         sources = [
             f
             for f in ctx.files.srcs
@@ -245,7 +247,7 @@ def _compile_or_empty(
             ctx.attr.print_compile_time,
             ctx.attr.expect_java_output,
             ctx.attr.scalac_jvm_flags,
-            ctx.attr._scalac,
+            scalac,
             unused_dependency_checker_ignored_targets =
                 unused_dependency_checker_ignored_targets,
             unused_dependency_checker_mode = unused_dependency_checker_mode,

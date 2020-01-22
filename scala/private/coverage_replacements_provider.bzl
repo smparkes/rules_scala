@@ -37,6 +37,13 @@ _dependency_attributes = [
     "exports",
 ]
 
+def get_provider(ctx):
+    if ctx.attr.toolchain:
+      return ctx.attr.toolchain[platform_common.ToolchainInfo]
+    else:
+      print("E using default for", ctx)
+      return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+
 def _combine(*entriess, base = {}):
     return _CombinedCoverageReplacements(replacements = _dicts_add(base, *(
         [
@@ -74,7 +81,7 @@ def _is_enabled(ctx):
     if "@io_bazel_rules_scala//scala:toolchain_type" not in ctx.toolchains:
         return False
     else:
-        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"].enable_code_coverage_aspect == "on"
+        return get_provider(ctx).enable_code_coverage_aspect == "on"
 
 coverage_replacements_provider = struct(
     aspect = _aspect,

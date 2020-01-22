@@ -21,6 +21,13 @@ ScalaPBInfo = provider(fields = [
     "aspect_info",
 ])
 
+def get_provider(ctx):
+    if ctx.attr.toolchain:
+      return ctx.attr.toolchain[platform_common.ToolchainInfo]
+    else:
+      print("F using default for", ctx)
+      return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+
 def merge_proto_infos(tis):
     return struct(
         transitive_sources = [t.transitive_sources for t in tis],
@@ -131,7 +138,7 @@ def _scalapb_aspect_impl(target, ctx):
         compile_protos = sorted(target_ti.direct_sources)
         transitive_protos = sorted(target_ti.transitive_sources.to_list())
 
-        toolchain = ctx.toolchains["@io_bazel_rules_scala//scala_proto:toolchain_type"]
+        toolchain = get_provider(ctx)
         flags = []
         imps = [j[JavaInfo] for j in ctx.attr._implicit_compile_deps]
 

@@ -6,7 +6,7 @@ java_library(
     ],
     visibility = ["//visibility:private"],
     deps = [
-        "//external:io_bazel_rules_scala/dependency/scala/guava",
+        "@exe//:com_google_guava_guava",
         "@bazel_tools//tools/java/runfiles",
     ],
 )
