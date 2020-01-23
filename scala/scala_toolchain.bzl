@@ -36,7 +36,6 @@ scala_toolchain = rule(
         "scala_test_jvm_flags": attr.string_list(),
         "scalac": attr.label(),
         "scalac_provider_attr": attr.label(
-            default = "@io_bazel_rules_scala//scala:scalac_default",
             providers = [_ScalacProvider],
         ),
     },

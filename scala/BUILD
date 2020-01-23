@@ -32,7 +32,7 @@ scala_toolchain(
 
 toolchain(
     name = "scala-2.12-toolchain",
-    toolchain = ":scala-2.11-scala-toolchain",
+    toolchain = ":scala-2.12-scala-toolchain",
     toolchain_type = "@io_bazel_rules_scala//scala:toolchain_type",
     visibility = ["//visibility:public"],
 )
