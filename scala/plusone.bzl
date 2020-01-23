@@ -13,7 +13,7 @@ def get_provider(ctx):
     if ctx.attr.toolchain:
         return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
-        print("A using default for", ctx)
+        # print("A using default for", ctx)
         return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def _collect_plus_one_deps_aspect_impl(target, ctx):

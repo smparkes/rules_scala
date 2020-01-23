@@ -41,7 +41,7 @@ def get_provider(ctx):
     if ctx.attr.toolchain:
         return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
-        print("E using default for", ctx)
+        # print("E using default for", ctx)
         return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def _combine(*entriess, base = {}):

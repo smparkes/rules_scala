@@ -285,7 +285,7 @@ def get_provider(ctx):
     if ctx.attr.toolchain:
         return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
-        print("B using default for", ctx)
+        # print("B using default for", ctx)
         return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def is_plus_one_deps_off(ctx):

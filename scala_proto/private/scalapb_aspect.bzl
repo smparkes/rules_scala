@@ -25,7 +25,7 @@ def get_provider(ctx):
     if ctx.attr.toolchain:
         return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
-        print("F using default for", ctx)
+        # print("F using default for", ctx)
         return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def merge_proto_infos(tis):

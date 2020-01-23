@@ -9,12 +9,6 @@ toolchain_type(
     visibility = ["//visibility:public"],
 )
 
-# scala_toolchain(
-#     name = "default_toolchain_impl",
-#     scalacopts = [],
-#     visibility = ["//visibility:public"],
-# )
-
 scala_toolchain(
     name = "scala-2.11-scala-toolchain",
     scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-2.11",

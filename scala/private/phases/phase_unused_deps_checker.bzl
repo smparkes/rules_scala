@@ -8,7 +8,7 @@ def get_provider(ctx):
     if ctx.attr.toolchain:
         return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
-        print("D using default for", ctx)
+        # print("D using default for", ctx)
         return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def phase_unused_deps_checker(ctx, p):

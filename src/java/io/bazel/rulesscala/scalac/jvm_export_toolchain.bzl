@@ -14,7 +14,7 @@ def get_scalac_provider(ctx):
         return ctx.attr.scalac_provider[_ScalacProvider]
     else:
         fail(ctx)
-        print("G using default for", ctx)
+        # print("G using default for", ctx)
         return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def _export_scalac_repositories_from_toolchain_to_jvm_impl(ctx):
