@@ -221,7 +221,11 @@ def _compile_or_empty(
         if len(java_srcs) != 0:
             unused_dependency_checker_mode = "off"
 
-        scalac = ctx.attr.toolchain[platform_common.ToolchainInfo].scalac
+        scalac = None
+        if ctx.attr.toolchain:
+          scalac = ctx.attr.toolchain[platform_common.ToolchainInfo].scalac
+        else:
+          scalac = ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"].scalac
 
         sources = [
             f
