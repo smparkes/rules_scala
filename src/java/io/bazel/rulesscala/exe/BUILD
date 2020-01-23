@@ -6,8 +6,8 @@ java_library(
     ],
     visibility = ["//visibility:private"],
     deps = [
-        "@exe//:com_google_guava_guava",
         "@bazel_tools//tools/java/runfiles",
+        "@exe//:com_google_guava_guava",
     ],
 )
 

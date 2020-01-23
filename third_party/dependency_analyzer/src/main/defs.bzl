@@ -1,5 +1,6 @@
-load("@io_bazel_rules_scala//scala:advanced_usage/scala.bzl",
-     "make_scala_library_for_plugin_bootstrapping",
+load(
+    "@io_bazel_rules_scala//scala:advanced_usage/scala.bzl",
+    "make_scala_library_for_plugin_bootstrapping",
 )
 
 scala_library_for_plugin_bootstrapping(

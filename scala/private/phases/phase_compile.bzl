@@ -223,9 +223,9 @@ def _compile_or_empty(
 
         scalac = None
         if ctx.attr.toolchain:
-          scalac = ctx.attr.toolchain[platform_common.ToolchainInfo].scalac
+            scalac = ctx.attr.toolchain[platform_common.ToolchainInfo].scalac
         else:
-          scalac = ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"].scalac
+            scalac = ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"].scalac
 
         sources = [
             f

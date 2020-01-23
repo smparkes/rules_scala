@@ -283,10 +283,10 @@ def is_dependency_analyzer_off(ctx):
 
 def get_provider(ctx):
     if ctx.attr.toolchain:
-      return ctx.attr.toolchain[platform_common.ToolchainInfo]
+        return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
-      print("B using default for", ctx)
-      return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+        print("B using default for", ctx)
+        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def is_plus_one_deps_off(ctx):
     return get_provider(ctx).plus_one_deps_mode == "off"

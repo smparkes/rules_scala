@@ -4,13 +4,13 @@ load(
 )
 
 _export_scalac_repositories_from_toolchain_to_jvm(
-  name = "exported_2_11_scalac_repositories_from_toolchain_to_jvm",
-  scalac_provider = "//scala:scalac-2.11",
+    name = "exported_2_11_scalac_repositories_from_toolchain_to_jvm",
+    scalac_provider = "//scala:scalac-2.11",
 )
 
 _export_scalac_repositories_from_toolchain_to_jvm(
-  name = "exported_2_12_scalac_repositories_from_toolchain_to_jvm",
-  scalac_provider = "//scala:scalac-2.12",
+    name = "exported_2_12_scalac_repositories_from_toolchain_to_jvm",
+    scalac_provider = "//scala:scalac-2.12",
 )
 
 java_binary(

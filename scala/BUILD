@@ -16,10 +16,10 @@ toolchain_type(
 # )
 
 scala_toolchain(
-  name = "scala-2.11-scala-toolchain",
-  scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-2.11",
-  scalac_provider_attr = ":scalac-2.11",
-  visibility = ["//visibility:public"],
+    name = "scala-2.11-scala-toolchain",
+    scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-2.11",
+    scalac_provider_attr = ":scalac-2.11",
+    visibility = ["//visibility:public"],
 )
 
 toolchain(
@@ -30,10 +30,10 @@ toolchain(
 )
 
 scala_toolchain(
-  name = "scala-2.12-scala-toolchain",
-  scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-2.12",
-  scalac_provider_attr = ":scalac-2.12",
-  visibility = ["//visibility:public"],
+    name = "scala-2.12-scala-toolchain",
+    scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-2.12",
+    scalac_provider_attr = ":scalac-2.12",
+    visibility = ["//visibility:public"],
 )
 
 toolchain(
@@ -65,17 +65,17 @@ java_import(
 _declare_scalac_provider(
     name = "scalac-2.11",
     default_classpath = [
-      "@scala_2_11//:org_scala_lang_scala_library",
-      "@scala_2_11//:org_scala_lang_scala_reflect",
+        "@scala_2_11//:org_scala_lang_scala_library",
+        "@scala_2_11//:org_scala_lang_scala_reflect",
     ],
     default_macro_classpath = [
-      "@scala_2_11//:org_scala_lang_scala_library",
-      "@scala_2_11//:org_scala_lang_scala_reflect",
+        "@scala_2_11//:org_scala_lang_scala_library",
+        "@scala_2_11//:org_scala_lang_scala_reflect",
     ],
     default_repl_classpath = [
-      "@scala_2_11//:org_scala_lang_scala_library",
-      "@scala_2_11//:org_scala_lang_scala_reflect",
-      "@scala_2_11//:org_scala_lang_scala_compiler",
+        "@scala_2_11//:org_scala_lang_scala_library",
+        "@scala_2_11//:org_scala_lang_scala_reflect",
+        "@scala_2_11//:org_scala_lang_scala_compiler",
     ],
     visibility = ["//visibility:public"],
 )
@@ -83,21 +83,20 @@ _declare_scalac_provider(
 _declare_scalac_provider(
     name = "scalac-2.12",
     default_classpath = [
-      "@scala_2_12//:org_scala_lang_scala_library",
-      "@scala_2_12//:org_scala_lang_scala_reflect",
+        "@scala_2_12//:org_scala_lang_scala_library",
+        "@scala_2_12//:org_scala_lang_scala_reflect",
     ],
     default_macro_classpath = [
-      "@scala_2_12//:org_scala_lang_scala_library",
-      "@scala_2_12//:org_scala_lang_scala_reflect",
+        "@scala_2_12//:org_scala_lang_scala_library",
+        "@scala_2_12//:org_scala_lang_scala_reflect",
     ],
     default_repl_classpath = [
-      "@scala_2_12//:org_scala_lang_scala_library",
-      "@scala_2_12//:org_scala_lang_scala_reflect",
-      "@scala_2_12//:org_scala_lang_scala_compiler",
+        "@scala_2_12//:org_scala_lang_scala_library",
+        "@scala_2_12//:org_scala_lang_scala_reflect",
+        "@scala_2_12//:org_scala_lang_scala_compiler",
     ],
     visibility = ["//visibility:public"],
 )
-
 
 java_library(
     name = "PlaceHolderClassToCreateEmptyJarForScalaImport",
