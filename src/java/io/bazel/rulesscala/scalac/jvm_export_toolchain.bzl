@@ -28,7 +28,6 @@ def _export_scalac_repositories_from_toolchain_to_jvm_impl(ctx):
 
 export_scalac_repositories_from_toolchain_to_jvm = rule(
     _export_scalac_repositories_from_toolchain_to_jvm_impl,
-    # toolchains = ["@io_bazel_rules_scala//scala:toolchain_type"],
     attrs = {
         "scalac_provider": attr.label(
             providers = [_ScalacProvider],

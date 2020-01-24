@@ -3,19 +3,11 @@
 #
 # DOCUMENT THIS
 #
-load(
-    "@io_bazel_rules_scala//scala:providers.bzl",
-    _ScalacProvider = "ScalacProvider",
-)
-
-def get_provider(ctx):
-    if ctx.attr.toolchain:
-        return ctx.attr.toolchain[platform_common.ToolchainInfo]
-    else:
-        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+load("//scala:providers.bzl", _ScalacProvider = "ScalacProvider",)
+load("//scala:toolchains.bzl", _get_scala_toolchain = "get_scala_toolchain",)
 
 def phase_scalac_provider(ctx, p):
-    scalac_provider = get_provider(ctx).scalac_provider_attr
+    scalac_provider = _get_scala_toolchain(ctx).scalac_provider_attr
     if scalac_provider == None:
         fail("no scalac provider resolved")
     return scalac_provider[_ScalacProvider]

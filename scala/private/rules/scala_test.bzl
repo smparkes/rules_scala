@@ -28,6 +28,8 @@ load(
 )
 
 def _scala_test_impl(ctx):
+    print(ctx)
+    print(ctx.toolchains)
     return run_phases(
         ctx,
         # customizable phases
@@ -56,35 +58,36 @@ _scala_test_attrs = {
     "colors": attr.bool(default = True),
     "full_stacktraces": attr.bool(default = True),
     "jvm_flags": attr.string_list(),
-    "_scalatest": attr.label(
-        default = Label(
-            "//external:io_bazel_rules_scala/dependency/scalatest/scalatest",
-        ),
-    ),
-    "_scalatest_runner": attr.label(
-        cfg = "host",
-        default = Label("//src/java/io/bazel/rulesscala/scala_test:runner"),
-    ),
-    "_scalatest_reporter": attr.label(
-        default = Label("//scala/support:test_reporter"),
-    ),
+    # "_scalatest": attr.label(
+    #     default = Label(
+    #         "//external:io_bazel_rules_scala/dependency/scalatest/scalatest",
+    #     ),
+    # ),
+    # "_scalatest_runner": attr.label(
+    #     cfg = "host",
+    #     default = Label("//src/java/io/bazel/rulesscala/scala_test:runner"),
+    # ),
+    # "_scalatest_reporter": attr.label(
+    #     default = Label("//scala/support:test_reporter"),
+    # ),
     "_jacocorunner": attr.label(
         default = Label("@bazel_tools//tools/jdk:JacocoCoverage"),
     ),
     "_lcov_merger": attr.label(
         default = Label("@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main"),
     ),
+    "scalatest_toolchain": attr.label(),
 }
 
 _test_resolve_deps = {
     "_scala_toolchain": attr.label_list(
         default = [
-            Label(
-                "//external:io_bazel_rules_scala/dependency/scala/scala_library",
-            ),
-            Label(
-                "//external:io_bazel_rules_scala/dependency/scalatest/scalatest",
-            ),
+            # Label(
+            #     "//external:io_bazel_rules_scala/dependency/scala/scala_library",
+            # ),
+            # Label(
+            #     "//external:io_bazel_rules_scala/dependency/scalatest/scalatest",
+            # ),
         ],
         allow_files = False,
     ),
@@ -112,6 +115,7 @@ def make_scala_test(*extras):
             *[extra["outputs"] for extra in extras if "outputs" in extra]
         ),
         test = True,
+        # toolchains = ["@io_bazel_rules_scala//scala:toolchain_type", "@io_bazel_rules_scala//scala:scalatest_toolchain_type"],
         toolchains = ["@io_bazel_rules_scala//scala:toolchain_type"],
         implementation = _scala_test_impl,
     )

@@ -10,7 +10,7 @@ load(
 )
 
 common_attrs_for_plugin_bootstrapping = {
-    "toolchain": attr.label(),
+    # "scala_toolchain": attr.label(),
     "srcs": attr.label_list(allow_files = [
         ".scala",
         ".srcjar",

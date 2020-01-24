@@ -13,14 +13,9 @@
 # limitations under the License.
 """Rules for supporting the Scala language."""
 
-load(
-    "@io_bazel_rules_scala//scala/private:coverage_replacements_provider.bzl",
-    _coverage_replacements_provider = "coverage_replacements_provider",
-)
-load(
-    ":common.bzl",
-    _collect_plugin_paths = "collect_plugin_paths",
-)
+load("//scala:toolchains.bzl", _get_scala_toolchain = "get_scala_toolchain",)
+load(":common.bzl", _collect_plugin_paths = "collect_plugin_paths",)
+load(":coverage_replacements_provider.bzl", _coverage_replacements_provider = "coverage_replacements_provider",)
 
 def adjust_resources_path_by_default_prefixes(path):
     #  Here we are looking to find out the offset of this resource inside
@@ -148,7 +143,7 @@ CurrentTarget: {current_target}
     separator = ctx.configuration.host_path_separator
     compiler_classpath = _join_path(compiler_classpath_jars.to_list(), separator)
 
-    toolchain = get_provider(ctx)
+    toolchain = _get_scala_toolchain(ctx)
     scalacopts = [ctx.expand_location(v, input_plugins) for v in toolchain.scalacopts + in_scalacopts]
 
     scalac_args = """
@@ -220,7 +215,7 @@ StatsfileOutput: {statsfile_output}
     # toolchain
     final_scalac_jvm_flags = first_non_empty(
         scalac_jvm_flags,
-        get_provider(ctx).scalac_jvm_flags,
+        _get_scala_toolchain(ctx).scalac_jvm_flags,
     )
 
     ctx.actions.run(
@@ -281,15 +276,8 @@ def is_dependency_analyzer_on(ctx):
 def is_dependency_analyzer_off(ctx):
     return not is_dependency_analyzer_on(ctx)
 
-def get_provider(ctx):
-    if ctx.attr.toolchain:
-        return ctx.attr.toolchain[platform_common.ToolchainInfo]
-    else:
-        # print("B using default for", ctx)
-        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
-
 def is_plus_one_deps_off(ctx):
-    return get_provider(ctx).plus_one_deps_mode == "off"
+    return _get_scala_toolchain(ctx).plus_one_deps_mode == "off"
 
 def is_windows(ctx):
     return ctx.configuration.host_path_separator == ";"

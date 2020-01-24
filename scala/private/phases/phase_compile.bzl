@@ -15,6 +15,7 @@ load(
     _compile_scala = "compile_scala",
     _expand_location = "expand_location",
 )
+load("//scala:toolchains.bzl", _get_scala_toolchain = "get_scala_toolchain",)
 
 _java_extension = ".java"
 
@@ -221,11 +222,12 @@ def _compile_or_empty(
         if len(java_srcs) != 0:
             unused_dependency_checker_mode = "off"
 
-        scalac = None
-        if ctx.attr.toolchain:
-            scalac = ctx.attr.toolchain[platform_common.ToolchainInfo].scalac
-        else:
-            scalac = ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"].scalac
+        scalac = _get_scala_toolchain(ctx).scalac
+        # scalac = None
+        # if ctx.attr.toolchain:
+        #     scalac = ctx.attr.toolchain[platform_common.ToolchainInfo].scalac
+        # else:
+        #     scalac = ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"].scalac
 
         sources = [
             f

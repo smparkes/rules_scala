@@ -13,12 +13,22 @@ load(
     "collect_jars",
 )
 
+def get_scalatest_toolchain(ctx):
+    for target in ctx.attr.toolchains:
+        toolchain = target[platform_common.ToolchainInfo]
+        if hasattr(toolchain, "reporter"):
+            return toolchain
+    return ctx.toolchains["@io_bazel_rules_scala//scala:scalatest_toolchain_type"]
+
 def phase_scalatest_collect_jars(ctx, p):
+    print("a", ctx)
+    print("b", p)
+    scalatest_toolchain = get_scalatest_toolchain(ctx)
     args = struct(
-        base_classpath = p.scalac_provider.default_classpath + [ctx.attr._scalatest],
+        base_classpath = p.scalac_provider.default_classpath + p.scalac_provider.default_scalatest_classpath,
         extra_runtime_deps = [
-            ctx.attr._scalatest_reporter,
-            ctx.attr._scalatest_runner,
+            scalatest_toolchain.reporter,
+            scalatest_toolchain.runner,
         ],
     )
     return _phase_default_collect_jars(ctx, p, args)

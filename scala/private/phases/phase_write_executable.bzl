@@ -17,6 +17,7 @@ load(
 )
 
 def get_provider(ctx):
+    return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
     if ctx.attr.toolchain:
         return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
