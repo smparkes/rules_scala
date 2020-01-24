@@ -4,6 +4,7 @@
 # DOCUMENT THIS
 #
 load("@bazel_skylib//lib:paths.bzl", _paths = "paths")
+load("@bazel_skylib//lib:dicts.bzl", "dicts")
 load("@bazel_tools//tools/jdk:toolchain_utils.bzl", "find_java_runtime_toolchain", "find_java_toolchain")
 load(
     "@io_bazel_rules_scala//scala/private:coverage_replacements_provider.bzl",
@@ -24,12 +25,13 @@ _scala_extension = ".scala"
 _srcjar_extension = ".srcjar"
 
 _empty_coverage_struct = struct(
-    instrumented_files = None,
-    providers = [],
-    replacements = {},
+    external = struct(
+        replacements = {},
+    ),
+    providers_dict = {},
 )
 
-def phase_binary_compile(ctx, p):
+def phase_compile_binary(ctx, p):
     args = struct(
         buildijar = False,
         unused_dependency_checker_ignored_targets = [
@@ -38,9 +40,9 @@ def phase_binary_compile(ctx, p):
                           ctx.attr.unused_dependency_checker_ignored_targets
         ],
     )
-    return _phase_default_compile(ctx, p, args)
+    return _phase_compile_default(ctx, p, args)
 
-def phase_library_compile(ctx, p):
+def phase_compile_library(ctx, p):
     args = struct(
         srcjars = p.collect_srcjars,
         unused_dependency_checker_ignored_targets = [
@@ -49,9 +51,9 @@ def phase_library_compile(ctx, p):
                           ctx.attr.unused_dependency_checker_ignored_targets
         ],
     )
-    return _phase_default_compile(ctx, p, args)
+    return _phase_compile_default(ctx, p, args)
 
-def phase_library_for_plugin_bootstrapping_compile(ctx, p):
+def phase_compile_library_for_plugin_bootstrapping(ctx, p):
     args = struct(
         unused_dependency_checker_ignored_targets = [
             target.label
@@ -59,9 +61,9 @@ def phase_library_for_plugin_bootstrapping_compile(ctx, p):
         ],
         unused_dependency_checker_mode = "off",
     )
-    return _phase_default_compile(ctx, p, args)
+    return _phase_compile_default(ctx, p, args)
 
-def phase_macro_library_compile(ctx, p):
+def phase_compile_macro_library(ctx, p):
     args = struct(
         buildijar = False,
         unused_dependency_checker_ignored_targets = [
@@ -70,9 +72,9 @@ def phase_macro_library_compile(ctx, p):
                           ctx.attr.unused_dependency_checker_ignored_targets
         ],
     )
-    return _phase_default_compile(ctx, p, args)
+    return _phase_compile_default(ctx, p, args)
 
-def phase_junit_test_compile(ctx, p):
+def phase_compile_junit_test(ctx, p):
     args = struct(
         buildijar = False,
         implicit_junit_deps_needed_for_java_compilation = [
@@ -90,9 +92,9 @@ def phase_junit_test_compile(ctx, p):
             ctx.attr._bazel_test_runner.label,
         ],
     )
-    return _phase_default_compile(ctx, p, args)
+    return _phase_compile_default(ctx, p, args)
 
-def phase_repl_compile(ctx, p):
+def phase_compile_repl(ctx, p):
     args = struct(
         buildijar = False,
         unused_dependency_checker_ignored_targets = [
@@ -101,9 +103,9 @@ def phase_repl_compile(ctx, p):
                           ctx.attr.unused_dependency_checker_ignored_targets
         ],
     )
-    return _phase_default_compile(ctx, p, args)
+    return _phase_compile_default(ctx, p, args)
 
-def phase_scalatest_compile(ctx, p):
+def phase_compile_scalatest(ctx, p):
     args = struct(
         buildijar = False,
         unused_dependency_checker_ignored_targets = [
@@ -112,12 +114,12 @@ def phase_scalatest_compile(ctx, p):
                           ctx.attr.unused_dependency_checker_ignored_targets
         ],
     )
-    return _phase_default_compile(ctx, p, args)
+    return _phase_compile_default(ctx, p, args)
 
-def phase_common_compile(ctx, p):
-    return _phase_default_compile(ctx, p)
+def phase_compile_common(ctx, p):
+    return _phase_compile_default(ctx, p)
 
-def _phase_default_compile(ctx, p, _args = struct()):
+def _phase_compile_default(ctx, p, _args = struct()):
     return _phase_compile(
         ctx,
         p,
@@ -163,7 +165,7 @@ def _phase_compile(
     # TODO: simplify the return values and use provider
     return struct(
         class_jar = out.class_jar,
-        coverage = out.coverage,
+        coverage = out.coverage.external,
         full_jars = out.full_jars,
         ijar = out.ijar,
         ijars = out.ijars,
@@ -171,6 +173,9 @@ def _phase_compile(
         java_jar = out.java_jar,
         source_jars = _pack_source_jars(ctx) + out.source_jars,
         merged_provider = out.merged_provider,
+        external_providers = dicts.add(out.coverage.providers_dict, {
+            "JavaInfo": out.merged_provider,
+        }),
     )
 
 def _compile_or_empty(
@@ -429,8 +434,13 @@ def _jacoco_offline_instrument(ctx, input_jar):
         extensions = ["scala", "java"],
     )
     return struct(
-        providers = [provider, instrumented_files_provider],
-        replacements = replacements,
+        external = struct(
+            replacements = replacements,
+        ),
+        providers_dict = {
+            "_CoverageReplacements": provider,
+            "InstrumentedFilesInfo": instrumented_files_provider,
+        },
     )
 
 def _jacoco_offline_instrument_format_each(in_out_pair):

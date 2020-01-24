@@ -19,16 +19,16 @@ load(
     "@io_bazel_rules_scala//scala/private:phases/phases.bzl",
     "extras_phases",
     "phase_collect_exports_jars",
+    "phase_collect_jars_common",
+    "phase_collect_jars_library_for_plugin_bootstrapping",
+    "phase_collect_jars_macro_library",
     "phase_collect_srcjars",
-    "phase_common_collect_jars",
-    "phase_library_compile",
-    "phase_library_final",
-    "phase_library_for_plugin_bootstrapping_collect_jars",
-    "phase_library_for_plugin_bootstrapping_compile",
-    "phase_library_runfiles",
-    "phase_macro_library_collect_jars",
-    "phase_macro_library_compile",
+    "phase_compile_library",
+    "phase_compile_library_for_plugin_bootstrapping",
+    "phase_compile_macro_library",
+    "phase_default_info_library",
     "phase_merge_jars",
+    "phase_runfiles_library",
     "phase_scalac_provider",
     "phase_unused_deps_checker",
     "phase_write_manifest",
@@ -61,14 +61,13 @@ def _scala_library_impl(ctx):
             ("collect_srcjars", phase_collect_srcjars),
             ("write_manifest", phase_write_manifest),
             ("unused_deps_checker", phase_unused_deps_checker),
-            ("collect_jars", phase_common_collect_jars),
-            ("compile", phase_library_compile),
+            ("collect_jars", phase_collect_jars_common),
+            ("compile", phase_compile_library),
             ("merge_jars", phase_merge_jars),
-            ("runfiles", phase_library_runfiles),
+            ("runfiles", phase_runfiles_library),
             ("collect_exports_jars", phase_collect_exports_jars),
+            ("default_info", phase_default_info_library),
         ],
-        # fixed phase
-        ("final", phase_library_final),
     )
 
 _scala_library_attrs = {}
@@ -138,14 +137,13 @@ def _scala_library_for_plugin_bootstrapping_impl(ctx):
             ("scalac_provider", phase_scalac_provider),
             ("collect_srcjars", phase_collect_srcjars),
             ("write_manifest", phase_write_manifest),
-            ("collect_jars", phase_library_for_plugin_bootstrapping_collect_jars),
-            ("compile", phase_library_for_plugin_bootstrapping_compile),
+            ("collect_jars", phase_collect_jars_library_for_plugin_bootstrapping),
+            ("compile", phase_compile_library_for_plugin_bootstrapping),
             ("merge_jars", phase_merge_jars),
-            ("runfiles", phase_library_runfiles),
+            ("runfiles", phase_runfiles_library),
             ("collect_exports_jars", phase_collect_exports_jars),
+            ("default_info", phase_default_info_library),
         ],
-        # fixed phase
-        ("final", phase_library_final),
     )
 
 # the scala compiler plugin used for dependency analysis is compiled using `scala_library`.
@@ -194,14 +192,13 @@ def _scala_macro_library_impl(ctx):
             ("collect_srcjars", phase_collect_srcjars),
             ("write_manifest", phase_write_manifest),
             ("unused_deps_checker", phase_unused_deps_checker),
-            ("collect_jars", phase_macro_library_collect_jars),
-            ("compile", phase_macro_library_compile),
+            ("collect_jars", phase_collect_jars_macro_library),
+            ("compile", phase_compile_macro_library),
             ("merge_jars", phase_merge_jars),
-            ("runfiles", phase_library_runfiles),
+            ("runfiles", phase_runfiles_library),
             ("collect_exports_jars", phase_collect_exports_jars),
+            ("default_info", phase_default_info_library),
         ],
-        # fixed phase
-        ("final", phase_library_final),
     )
 
 _scala_macro_library_attrs = {

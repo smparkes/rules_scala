@@ -15,21 +15,17 @@ load(
     "@io_bazel_rules_scala//scala/private:coverage_replacements_provider.bzl",
     _coverage_replacements_provider = "coverage_replacements_provider",
 )
+load(
+    "@io_bazel_rules_scala//scala:toolchains.bzl",
+    _get_scala_toolchain = "get_scala_toolchain",
+)
 
-def get_provider(ctx):
-    return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
-    if ctx.attr.toolchain:
-        return ctx.attr.toolchain[platform_common.ToolchainInfo]
-    else:
-        # print("C using default for", ctx)
-        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
-
-def phase_scalatest_write_executable(ctx, p):
+def phase_write_executable_scalatest(ctx, p):
     # jvm_flags passed in on the target override scala_test_jvm_flags passed in on the
     # toolchain
     final_jvm_flags = first_non_empty(
         ctx.attr.jvm_flags,
-        get_provider(ctx).scala_test_jvm_flags,
+        _get_scala_toolchain(ctx).scala_test_jvm_flags,
     )
     args = struct(
         rjars = p.coverage_runfiles.rjars,
@@ -39,26 +35,26 @@ def phase_scalatest_write_executable(ctx, p):
         ] + expand_location(ctx, final_jvm_flags),
         use_jacoco = ctx.configuration.coverage_enabled,
     )
-    return _phase_deafult_write_executable(ctx, p, args)
+    return _phase_write_executable_default(ctx, p, args)
 
-def phase_repl_write_executable(ctx, p):
+def phase_write_executable_repl(ctx, p):
     args = struct(
         jvm_flags = ["-Dscala.usejavacp=true"] + ctx.attr.jvm_flags,
         main_class = "scala.tools.nsc.MainGenericRunner",
     )
-    return _phase_deafult_write_executable(ctx, p, args)
+    return _phase_write_executable_default(ctx, p, args)
 
-def phase_junit_test_write_executable(ctx, p):
+def phase_write_executable_junit_test(ctx, p):
     args = struct(
         jvm_flags = p.jvm_flags + ctx.attr.jvm_flags,
         main_class = "com.google.testing.junit.runner.BazelTestRunner",
     )
-    return _phase_deafult_write_executable(ctx, p, args)
+    return _phase_write_executable_default(ctx, p, args)
 
-def phase_common_write_executable(ctx, p):
-    return _phase_deafult_write_executable(ctx, p)
+def phase_write_executable_common(ctx, p):
+    return _phase_write_executable_default(ctx, p)
 
-def _phase_deafult_write_executable(ctx, p, _args = struct()):
+def _phase_write_executable_default(ctx, p, _args = struct()):
     return _phase_write_executable(
         ctx,
         p,
