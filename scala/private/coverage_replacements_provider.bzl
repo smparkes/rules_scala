@@ -38,12 +38,12 @@ _dependency_attributes = [
 ]
 
 def get_provider(ctx):
-    return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+    return ctx.toolchains["@io_bazel_rules_scala//scala:bootstrap_toolchain_type"]
     if ctx.attr.toolchain:
         return ctx.attr.toolchain[platform_common.ToolchainInfo]
     else:
         # print("E using default for", ctx)
-        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+        return ctx.toolchains["@io_bazel_rules_scala//scala:bootstrap_toolchain_type"]
 
 def _combine(*entriess, base = {}):
     return _CombinedCoverageReplacements(replacements = _dicts_add(base, *(
@@ -75,7 +75,7 @@ def _aspect_impl(target, ctx):
 _aspect = aspect(
     attr_aspects = _dependency_attributes,
     implementation = _aspect_impl,
-    toolchains = ["@io_bazel_rules_scala//scala:toolchain_type"],
+    toolchains = ["@io_bazel_rules_scala//scala:bootstrap_toolchain_type"],
 )
 
 def _is_enabled(ctx):

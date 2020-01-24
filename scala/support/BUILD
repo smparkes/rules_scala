@@ -24,8 +24,8 @@ scala_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
+        "//scala/scalatest:scalatest-2.11",
         "@scala_2_11//:org_scala_lang_modules_scala_xml_2_11",
-        "@scala_2_11//:org_scalatest_scalatest_2_11",
     ],
     toolchains = ["//scala:scala-2.11-scala-toolchain"],
 )
@@ -56,7 +56,7 @@ scala_library(
     visibility = ["//visibility:public"],
     deps = [
         "@scala_2_12//:org_scala_lang_modules_scala_xml_2_12",
-        "@scala_2_12//:org_scalatest_scalatest_2_12",
+        "//scala/scalatest:scalatest-2.12",
     ],
     toolchains = ["//scala:scala-2.12-scala-toolchain"],
 )

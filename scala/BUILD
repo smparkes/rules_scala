@@ -16,7 +16,7 @@ toolchain_type(
     visibility = ["//visibility:public"],
 )
 
-toolchains(["2.11", "2.12"])
+toolchains(["2.11", "2.12", "2.13"])
 
 # scala_toolchain(
 #     name = "unused_dependency_checker_error_toolchain_impl",

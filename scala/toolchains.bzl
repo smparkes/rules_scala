@@ -27,7 +27,7 @@ def toolchains(scala_versions = []):
 
         native.toolchain(
             name = "scala-%s-bootstrap-toolchain" % scala_version,
-            toolchain = ":scala-%s-scala-bootstrap-toolchain" % scala_version,
+            toolchain = "@io_bazel_rules_scala//scala:scala-%s-scala-bootstrap-toolchain" % scala_version,
             toolchain_type = "@io_bazel_rules_scala//scala:bootstrap_toolchain_type",
             visibility = ["//visibility:public"],
         )
@@ -35,29 +35,28 @@ def toolchains(scala_versions = []):
         scala_toolchain(
             name = "scala-%s-scala-toolchain" % scala_version,
             scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-%s" % scala_version,
-            scalac_provider_attr = ":scalac-%s" % scala_version,
-            unused_dependency_checker_plugin =
-            "//third_party/unused_dependency_checker/src/main:unused_dependency_checker-%s" % scala_version,
+            scalac_provider_attr = "@io_bazel_rules_scala//scala:scalac-%s" % scala_version,
+            unused_dependency_checker_plugin = "//third_party/unused_dependency_checker/src/main:unused_dependency_checker-%s" % scala_version,
             visibility = ["//visibility:public"],
         )
 
         native.toolchain(
             name = "scala-%s-toolchain" % scala_version,
-            toolchain = ":scala-%s-scala-toolchain" % scala_version,
+            toolchain = "@io_bazel_rules_scala//scala:scala-%s-scala-toolchain" % scala_version,
             toolchain_type = "@io_bazel_rules_scala//scala:toolchain_type",
             visibility = ["//visibility:public"],
         )
 
         scalatest_toolchain(
-            name = "scala-%s-scalatest-toolchain" % scala_version,
+            name = "scala-%s-scala-scalatest-toolchain" % scala_version,
             reporter = "//scala/support:test_reporter-%s" % scala_version,
             runner = "//src/java/io/bazel/rulesscala/scala_test:runner-%s" % scala_version,
             visibility = ["//visibility:public"],
         )
 
         native.toolchain(
-            name = "scalatest-%s-toolchain" % scala_version,
-            toolchain = ":scala-%s-scalatest-toolchain" % scala_version,
+            name = "scala-%s-scalatest-toolchain" % scala_version,
+            toolchain = "@io_bazel_rules_scala//scala:scala-%s-scala-scalatest-toolchain" % scala_version,
             toolchain_type = "@io_bazel_rules_scala//scala:scalatest_toolchain_type",
             visibility = ["//visibility:public"],
         )
@@ -81,18 +80,17 @@ def toolchains(scala_versions = []):
             ],
             default_scalatest_classpath = [
                 scala_repo + "//:org_scalatest_scalatest_%s" % scala_version.replace(".", "_"),
+                scala_repo + "//:org_scalactic_scalactic_%s" % scala_version.replace(".", "_"),
+                # "//scala:scalatest-%s" % scala_version,
             ],
             visibility = ["//visibility:public"],
         )
 
 def get_scala_toolchain(ctx):
-    print("a", ctx)
     for target in ctx.attr.toolchains:
-        print("b", target)
         toolchain = target[platform_common.ToolchainInfo]
         if hasattr(toolchain, "scalac"):
             return toolchain
-    print("c", ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"])
     return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def get_scalatest_toolchain(ctx):

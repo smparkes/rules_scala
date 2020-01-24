@@ -81,7 +81,7 @@ scala_toolchain = rule(
 def _scalatest_toolchain_impl(ctx):
     toolchain = platform_common.ToolchainInfo(
         reporter = ctx.attr.reporter,
-        runner = ctx.attr.reporter,
+        runner = ctx.attr.runner,
     )
     return [toolchain, platform_common.TemplateVariableInfo({})]
 
