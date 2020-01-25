@@ -58,11 +58,24 @@ def versioned_file(file, version):
     array = (native.glob([glob_string]) + [file])[0:1]
     return array
 
-def scala_toolchain(scala_major_version):
-    return "@io_bazel_rules_scala//scala:scala-%s-scala-toolchain" % scala_major_version
+def jvm_external(configuration, repo, strings):
+    labels = []
+    repo_prefix = "@%s//:" % repo.format(**configuration)
+    for string in strings:
+        labels.append(
+            repo_prefix + string.format(**configuration).replace(".", "_").replace(":", "_").replace("-", "_")
+        )
+    return labels
 
-def scalatest_toolchain(scala_major_version):
-    return "@io_bazel_rules_scala//scala:scala-%s-scala-scalatest-toolchain" % scala_major_version
+def version_to_major_version(version):
+    components = version.split(".")
+    return ".".join(components[0:2])
+
+def scala_toolchain(version):
+    return "@io_bazel_rules_scala//scala:scala-%s-scala-toolchain" % version_to_major_version(version)
+
+def scalatest_toolchain(version):
+    return "@io_bazel_rules_scala//scala:scala-%s-scala-scalatest-toolchain" % version_to_major_version(version)
 
 def scala_configured_string(string):
     return string.format(**scala_configuration())
