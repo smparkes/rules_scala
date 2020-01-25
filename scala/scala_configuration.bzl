@@ -58,6 +58,12 @@ def versioned_file(file, version):
     array = (native.glob([glob_string]) + [file])[0:1]
     return array
 
+def scala_toolchain(scala_major_version):
+    return "@io_bazel_rules_scala//scala:scala-%s-scala-toolchain" % scala_major_version
+
+def scalatest_toolchain(scala_major_version):
+    return "@io_bazel_rules_scala//scala:scala-%s-scala-scalatest-toolchain" % scala_major_version
+
 def scala_configured_string(string):
     return string.format(**scala_configuration())
 
