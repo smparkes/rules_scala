@@ -50,6 +50,14 @@ def scala_configuration():
     )
     scala_configuration.append(
         """
+def versioned_file(file, version):
+    configuration = scala_version_configuration(version)
+    components = file.split(".")
+    components[0] = components[0] + "_{scala_mvn_version}"
+    glob_string = ".".join(components).format(**configuration)
+    array = (native.glob([glob_string]) + [file])[0:1]
+    return array
+
 def scala_configured_string(string):
     return string.format(**scala_configuration())
 

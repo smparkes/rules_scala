@@ -1,6 +1,34 @@
 workspace(name = "io_bazel_rules_scala")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+#####
+# bazel-skylib 0.8.0 released 2019.03.20 (https://github.com/bazelbuild/bazel-skylib/releases/tag/0.8.0)
+skylib_version = "0.8.0"
+
+http_archive(
+    name = "bazel_skylib",
+    sha256 = "2ef429f5d7ce7111263289644d233707dba35e39696377ebab8b0bc701f7818e",
+    type = "tar.gz",
+    url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
+)
+
+load("@io_bazel_rules_scala//scala:rules_jvm_external.bzl", "rules_jvm_external")
+
+rules_jvm_external()
+
+load("@io_bazel_rules_scala//scala:scala_configuration.bzl", "scala_configuration")
+
+scala_configuration()
+
+load(
+    "@io_bazel_rules_scala//scala:scala_repositories.bzl",
+    "scala_repositories",
+)
+
+scala_repositories()
+#####
+
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
 
@@ -131,9 +159,9 @@ local_repository(
     path = "third_party/test/strip_resource_external_workspace",
 )
 
-load("@io_bazel_rules_scala//scala:toolchains.bzl", "scala_register_unused_deps_toolchains")
+# load("@io_bazel_rules_scala//scala:toolchains.bzl", "scala_register_unused_deps_toolchains")
 
-scala_register_unused_deps_toolchains()
+# scala_register_unused_deps_toolchains()
 
 register_toolchains("@io_bazel_rules_scala//test/proto:scalapb_toolchain")
 

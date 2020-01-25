@@ -2,6 +2,7 @@ load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
     _scala_configuration = "scala_configuration",
     _scala_version_configuration = "scala_version_configuration",
+    _versioned_file = "versioned_file",
 )
 load(
     ":jvm_export_toolchain.bzl",
@@ -23,9 +24,7 @@ def build():
                 "CompileOptions.java",
                 "Resource.java",
                 "ScalaCInvoker.java",
-            ] + [
-                (native.glob(["ScalacProcessor_{scala_mvn_version}.java".format(**configuration)]) + ["ScalacProcessor.java"])[0],
-            ],
+            ] + _versioned_file("ScalacProcessor.java", version),
             javacopts = [
                 "-source 1.8",
                 "-target 1.8",
