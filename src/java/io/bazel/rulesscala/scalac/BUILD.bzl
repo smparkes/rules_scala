@@ -20,7 +20,10 @@ def build():
         native.java_binary(
             name = "scalac-{scala_major_version}".format(**configuration),
             srcs = [
-                "@io_bazel_rules_scala//src/java/io/bazel/rulesscala/scalac:scalac_files",
+                "CompileOptions.java",
+                "Resource.java",
+                "ScalaCInvoker.java",
+                "ScalacProcessor_{scala_mvn_version}.java".format(**configuration),
             ],
             javacopts = [
                 "-source 1.8",

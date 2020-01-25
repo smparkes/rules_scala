@@ -5,6 +5,39 @@ load(
 )
 load("//scala:scala.bzl", "scala_library")
 
+_scalacopts_common = [
+    "-deprecation:true",
+    "-encoding",
+    "UTF-8",
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xlint",
+    "-Ywarn-dead-code",
+    "-Ywarn-numeric-widen",
+    "-Ywarn-value-discard",
+]
+
+_scalacopts = {
+    "2.11": _scalacopts_common + [
+        "-Yno-adapted-args",
+        "-Ywarn-unused-import",
+        "-Ypartial-unification",
+        "-Xfuture",
+    ],
+    "2.12": _scalacopts_common + [
+        "-Yno-adapted-args",
+        "-Ywarn-unused-import",
+        "-Ypartial-unification",
+        "-Xfuture",
+    ],
+    "2.13": _scalacopts_common + [
+    ],
+}
+
 def build():
     for version in _scala_configuration()["scala_versions"]:
         configuration = _scala_version_configuration(version)
@@ -12,25 +45,7 @@ def build():
         scala_library(
             name = "test_reporter-{scala_major_version}".format(**configuration),
             srcs = ["JUnitXmlReporter.scala"],
-            scalacopts = [
-                "-deprecation:true",
-                "-encoding",
-                "UTF-8",
-                "-feature",
-                "-language:existentials",
-                "-language:higherKinds",
-                "-language:implicitConversions",
-                "-unchecked",
-                "-Xfatal-warnings",
-                "-Xlint",
-                "-Yno-adapted-args",
-                "-Ywarn-dead-code",
-                "-Ywarn-numeric-widen",
-                "-Ywarn-value-discard",
-                "-Xfuture",
-                "-Ywarn-unused-import",
-                "-Ypartial-unification",
-            ],
+            scalacopts = _scalacopts[configuration["scala_major_version"]],
             visibility = ["//visibility:public"],
             deps = [
                 "//scala/scalatest:scalatest-{scala_major_version}".format(**configuration),
