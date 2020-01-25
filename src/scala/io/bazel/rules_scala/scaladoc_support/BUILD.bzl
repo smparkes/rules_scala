@@ -6,6 +6,7 @@ load(
     _scala_version_configuration = "scala_version_configuration",
     _scala_toolchain = "scala_toolchain",
     _jvm_external = "jvm_external",
+    _maybe_alias = "maybe_alias",
 )
 
 # A simple scala_binary to run scaladoc.
@@ -31,8 +32,4 @@ def build():
             toolchains = [_scala_toolchain(version)],
         )
 
-    if "default" in _scala_configuration():
-        native.alias(
-            name = "scaladoc_generator",
-            actual = "scaladoc_generator-" + _scala_configuration()["default"]
-        )
+    _maybe_alias("scaladoc_generator")

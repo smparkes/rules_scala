@@ -71,6 +71,13 @@ def version_to_major_version(version):
     components = version.split(".")
     return ".".join(components[0:2])
 
+def maybe_alias(target):
+    if "default" in scala_configuration():
+        native.alias(
+            name = target,
+            actual = target + "-" + scala_configuration()["default"]
+        )
+
 def scala_toolchain(version):
     return "@io_bazel_rules_scala//scala:scala-%s-scala-toolchain" % version_to_major_version(version)
 
