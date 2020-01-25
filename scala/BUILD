@@ -32,7 +32,11 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
-sh_binary(
+genrule(
     name = "pin",
-    srcs = pin_targets(),
+    srcs = [], #
+    tools = pin_targets(),
+    outs = ["pin.sh"],
+    executable = True,
+    cmd = "echo $(location tools)"
 )

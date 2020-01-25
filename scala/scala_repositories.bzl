@@ -36,7 +36,7 @@ def scala_repositories():
     version_conflict_policy = scala_configuration["version_conflict_policy"]
     maven_install_json_prefix = scala_configuration["maven_install_json_prefix"]
 
-    print(repo_prefix + "scalac")
+    # print("A", maven_install_json_prefix + "scalac" + ".json")
 
     _maven_install(
         name = repo_prefix + "scalac",
@@ -45,7 +45,7 @@ def scala_repositories():
         ],
         repositories = repositories,
         version_conflict_policy = version_conflict_policy,
-        maven_install_json = maven_install_json_prefix + "scalac" + ".json" if maven_install_json_prefix else None
+        maven_install_json = maven_install_json_prefix + repo_prefix + "scalac" + ".json" if maven_install_json_prefix else None
     )
 
     _maven_install(
@@ -55,7 +55,7 @@ def scala_repositories():
         ],
         repositories = repositories,
         version_conflict_policy = version_conflict_policy,
-        maven_install_json = maven_install_json_prefix + "worker" + ".json" if maven_install_json_prefix else None
+        maven_install_json = maven_install_json_prefix + repo_prefix + "worker" + ".json" if maven_install_json_prefix else None
     )
 
     _maven_install(
@@ -65,7 +65,7 @@ def scala_repositories():
         ],
         repositories = repositories,
         version_conflict_policy = version_conflict_policy,
-        maven_install_json = maven_install_json_prefix + "exe" + ".json" if maven_install_json_prefix else None
+        maven_install_json = maven_install_json_prefix + repo_prefix + "exe" + ".json" if maven_install_json_prefix else None
     )
 
     default_version = scala_configuration["default"]
@@ -100,7 +100,7 @@ def _pinnable_repos():
 
 def pin_targets():
     targets = ["@" + repo + "//:pin" for repo in _pinnable_repos()]
-    print(targets)
+    # print(targets)
     return targets
 
 def unpin_targets():

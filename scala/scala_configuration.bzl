@@ -40,16 +40,20 @@ def scala_configuration(_configuration = {}):
 
     scala_configuration = []
     scala_configuration.append("""load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")""")
-    scala_configuration.append("_value = "+struct(value = configuration).to_json())
+    scala_configuration.append("_value = "+struct(value = configuration).to_json().replace(":null,", ":None,"))
     scala_configuration.append(
 """
 def scala_configuration():
     configuration = _value["value"]
+    # print(configuration)
     return configuration
 """
     )
     scala_configuration.append(
 """
+def scala_configured_string(string):
+    return string.format(**scala_configuration())
+
 def scala_version_configuration(version):
     scala_major_version = ".".join(version.split(".")[0:2])
     scala_mvn_version = scala_major_version.replace(".", "_")
