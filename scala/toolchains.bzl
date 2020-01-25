@@ -19,13 +19,24 @@ def scala_toolchains():
     for version in configuration["scala_versions"]:
         configuration = _scala_version_configuration(version)
 
-        # fail(configuration)
+        enable_code_coverage_aspect = configuration["enable_code_coverage_aspect"] if "enable_code_coverage_aspect" in configuration else "off"
+        plus_one_deps_mode = configuration["plus_one_deps_mode"] if "plus_one_deps_mode" in configuration else "off"
+        scala_test_jvm_flags = configuration["scala_test_jvm_flags"] if "scala_test_jvm_flags" in configuration else []
+        scalac_jvm_flags = configuration["scalac_jvm_flags"] if "scalac_jvm_flags" in configuration else []
+        scalacopts = configuration["scalacopts"] if "scalacopts" in configuration else []
+        unused_dependency_checker_mode = configuration["unused_dependency_checker_mode"] if "unused_dependency_checker_mode" in configuration else "off"
+
 
         scala_bootstrap_toolchain(
             name = "scala-{scala_major_version}-scala-bootstrap-toolchain".format(**configuration),
             scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-{scala_major_version}".format(**configuration),
             scalac_provider_attr = ":scalac-{scala_major_version}".format(**configuration),
             visibility = ["//visibility:public"],
+            enable_code_coverage_aspect = enable_code_coverage_aspect,
+            plus_one_deps_mode = plus_one_deps_mode,
+            scala_test_jvm_flags = scala_test_jvm_flags,
+            scalac_jvm_flags = scalac_jvm_flags,
+            scalacopts = scalacopts,
         )
 
         native.toolchain(
@@ -41,6 +52,12 @@ def scala_toolchains():
             scalac_provider_attr = "@io_bazel_rules_scala//scala:scalac-{scala_major_version}".format(**configuration),
             unused_dependency_checker_plugin = "//third_party/unused_dependency_checker/src/main:unused_dependency_checker-{scala_major_version}".format(**configuration),
             visibility = ["//visibility:public"],
+            enable_code_coverage_aspect = enable_code_coverage_aspect,
+            plus_one_deps_mode = plus_one_deps_mode,
+            scala_test_jvm_flags = scala_test_jvm_flags,
+            scalac_jvm_flags = scalac_jvm_flags,
+            scalacopts = scalacopts,
+            unused_dependency_checker_mode = unused_dependency_checker_mode,
         )
 
         native.toolchain(

@@ -103,9 +103,9 @@ CurrentTarget: {current_target}
         )
 
     elif unused_dependency_checker_mode != "off":
-        unused_dependency_plugin = ctx.attr._unused_dependency_checker_plugin
+        unused_dependency_plugin = _get_scala_toolchain(ctx).unused_dependency_checker_plugin
         plugins = depset(transitive = [plugins, unused_dependency_plugin.files])
-        internal_plugin_jars = ctx.files._unused_dependency_checker_plugin
+        internal_plugin_jars = unused_dependency_plugin.files.to_list()
 
         cjars_list = cjars.to_list()
         direct_jars = _join_path(cjars_list)

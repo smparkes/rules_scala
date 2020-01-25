@@ -16,6 +16,14 @@ _default_scala_configuration = {
     "repo_prefix": "io_bazel_rules_scala_repo_",
     "version_conflict_policy": "pinned",
     "maven_install_json_prefix": None,
+    "toolchains": {
+        "enable_code_coverage_aspect": "off",
+        "plus_one_deps_mode": "off",
+        "scala_test_jvm_flags": [],
+        "scalac_jvm_flags": [],
+        "scalaopts": [],
+        "unused_dependency_checker_mode": "off",
+    },
 }
 
 def _repo_impl(ctx):
@@ -37,6 +45,8 @@ _repo = repository_rule(
 )
 
 def scala_configuration(_configuration = {}):
+    _toolchain_configuration = {}
+
     configuration = _dicts.add(
         _default_scala_configuration,
         _configuration,

@@ -51,11 +51,6 @@ def scala_version_configuration(version):
     scala_mvn_version = scala_major_version.replace(".", "_")
 
     configuration = scala_configuration()
-    if False:
-        print("a",configuration.keys())
-        print("a",configuration["scala"])
-        print("a",configuration)
-        print("x",version)
 
     version_configuration = configuration["scala"][version]
 
