@@ -19,6 +19,8 @@ def scala_toolchains():
     for version in configuration["scala_versions"]:
         configuration = _scala_version_configuration(version)
 
+        # fail(configuration)
+
         scala_bootstrap_toolchain(
             name = "scala-{scala_major_version}-scala-bootstrap-toolchain".format(**configuration),
             scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-{scala_major_version}".format(**configuration),
@@ -95,7 +97,10 @@ def get_scala_toolchain(ctx):
         toolchain = target[platform_common.ToolchainInfo]
         if hasattr(toolchain, "scalac"):
             return toolchain
-    return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
+    if hasattr(ctx.attr, "_bootstrap"):
+        return ctx.toolchains["@io_bazel_rules_scala//scala:bootstrap_toolchain_type"]
+    else:
+        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def get_scalatest_toolchain(ctx):
     for target in ctx.attr.toolchains:

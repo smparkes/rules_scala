@@ -218,6 +218,7 @@ def _compile_scala(
     # want the ijar for generated code anyway: any change
     # in the thrift generally will change the interface and
     # method bodies
+    fail("here")
     compile_scala(
         ctx,
         label,
