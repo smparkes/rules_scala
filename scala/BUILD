@@ -1,5 +1,6 @@
 load(":scala_toolchain.bzl", "scala_toolchain")
-load(":toolchains.bzl", "toolchains")
+load(":toolchains.bzl", "scala_toolchains")
+load(":scala_repositories.bzl", "pin_targets", "unpin_targets")
 
 toolchain_type(
     name = "bootstrap_toolchain_type",
@@ -16,20 +17,7 @@ toolchain_type(
     visibility = ["//visibility:public"],
 )
 
-toolchains(["2.11", "2.12", "2.13"])
-
-# scala_toolchain(
-#     name = "unused_dependency_checker_error_toolchain_impl",
-#     unused_dependency_checker_mode = "error",
-#     visibility = ["//visibility:public"],
-# )
-
-# toolchain(
-#     name = "unused_dependency_checker_error_toolchain",
-#     toolchain = ":unused_dependency_checker_error_toolchain_impl",
-#     toolchain_type = "@io_bazel_rules_scala//scala:toolchain_type",
-#     visibility = ["//visibility:public"],
-# )
+scala_toolchains()
 
 java_import(
     name = "bazel_test_runner_deploy",
@@ -42,4 +30,9 @@ java_library(
     name = "PlaceHolderClassToCreateEmptyJarForScalaImport",
     srcs = ["PlaceHolderClassToCreateEmptyJarForScalaImport.java"],
     visibility = ["//visibility:public"],
+)
+
+sh_binary(
+    name = "pin",
+    srcs = pin_targets(),
 )

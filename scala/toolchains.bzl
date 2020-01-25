@@ -8,83 +8,88 @@ load(
     ":providers.bzl",
     _declare_scalac_provider = "declare_scalac_provider",
 )
+load(
+    "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
+    _scala_configuration = "scala_configuration",
+    _scala_version_configuration = "scala_version_configuration",
+)
 
-def scala_register_toolchains():
-    native.register_toolchains(":default_toolchain")
-
-def scala_register_unused_deps_toolchains():
-    native.register_toolchains(":unused_dependency_checker_error_toolchain")
-
-def toolchains(scala_versions = []):
-    for scala_version in scala_versions:
+def scala_toolchains():
+    configuration = _scala_configuration()
+    for version in configuration["scala_versions"]:
+        configuration = _scala_version_configuration(version)
 
         scala_bootstrap_toolchain(
-            name = "scala-%s-scala-bootstrap-toolchain" % scala_version,
-            scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-%s" % scala_version,
-            scalac_provider_attr = ":scalac-%s" % scala_version,
+            name = "scala-{scala_major_version}-scala-bootstrap-toolchain".format(**configuration),
+            scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-{scala_major_version}".format(**configuration),
+            scalac_provider_attr = ":scalac-{scala_major_version}".format(**configuration),
             visibility = ["//visibility:public"],
         )
 
         native.toolchain(
-            name = "scala-%s-bootstrap-toolchain" % scala_version,
-            toolchain = "@io_bazel_rules_scala//scala:scala-%s-scala-bootstrap-toolchain" % scala_version,
+            name = "scala-{scala_major_version}-bootstrap-toolchain".format(**configuration),
+            toolchain = "@io_bazel_rules_scala//scala:scala-{scala_major_version}-scala-bootstrap-toolchain".format(**configuration),
             toolchain_type = "@io_bazel_rules_scala//scala:bootstrap_toolchain_type",
             visibility = ["//visibility:public"],
         )
 
         scala_toolchain(
-            name = "scala-%s-scala-toolchain" % scala_version,
-            scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-%s" % scala_version,
-            scalac_provider_attr = "@io_bazel_rules_scala//scala:scalac-%s" % scala_version,
-            unused_dependency_checker_plugin = "//third_party/unused_dependency_checker/src/main:unused_dependency_checker-%s" % scala_version,
+            name = "scala-{scala_major_version}-scala-toolchain".format(**configuration),
+            scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-{scala_major_version}".format(**configuration),
+            scalac_provider_attr = "@io_bazel_rules_scala//scala:scalac-{scala_major_version}".format(**configuration),
+            unused_dependency_checker_plugin = "//third_party/unused_dependency_checker/src/main:unused_dependency_checker-{scala_major_version}".format(**configuration),
             visibility = ["//visibility:public"],
         )
 
         native.toolchain(
-            name = "scala-%s-toolchain" % scala_version,
-            toolchain = "@io_bazel_rules_scala//scala:scala-%s-scala-toolchain" % scala_version,
+            name = "scala-{scala_major_version}-toolchain".format(**configuration),
+            toolchain = "@io_bazel_rules_scala//scala:scala-{scala_major_version}-scala-toolchain".format(**configuration),
             toolchain_type = "@io_bazel_rules_scala//scala:toolchain_type",
             visibility = ["//visibility:public"],
         )
 
         scalatest_toolchain(
-            name = "scala-%s-scala-scalatest-toolchain" % scala_version,
-            reporter = "//scala/support:test_reporter-%s" % scala_version,
-            runner = "//src/java/io/bazel/rulesscala/scala_test:runner-%s" % scala_version,
+            name = "scala-{scala_major_version}-scala-scalatest-toolchain".format(**configuration),
+            reporter = "//scala/support:test_reporter-{scala_major_version}".format(**configuration),
+            runner = "//src/java/io/bazel/rulesscala/scala_test:runner-{scala_major_version}".format(**configuration),
             visibility = ["//visibility:public"],
         )
 
         native.toolchain(
-            name = "scala-%s-scalatest-toolchain" % scala_version,
-            toolchain = "@io_bazel_rules_scala//scala:scala-%s-scala-scalatest-toolchain" % scala_version,
+            name = "scala-{scala_major_version}-scalatest-toolchain".format(**configuration),
+            toolchain = "@io_bazel_rules_scala//scala:scala-{scala_major_version}-scala-scalatest-toolchain".format(**configuration),
             toolchain_type = "@io_bazel_rules_scala//scala:scalatest_toolchain_type",
             visibility = ["//visibility:public"],
         )
 
-        scala_repo = "@scala_" + scala_version.replace(".", "_")
-
         _declare_scalac_provider(
-            name = "scalac-%s" % scala_version,
+            name = "scalac-{scala_major_version}".format(**configuration),
             default_classpath = [
-                scala_repo + "//:org_scala_lang_scala_library",
-                scala_repo + "//:org_scala_lang_scala_reflect",
+                "@{scala_repo}//:org_scala_lang_scala_library".format(**configuration),
+                "@{scala_repo}//:org_scala_lang_scala_reflect".format(**configuration),
             ],
             default_macro_classpath = [
-                scala_repo + "//:org_scala_lang_scala_library",
-                scala_repo + "//:org_scala_lang_scala_reflect",
+                "@{scala_repo}//:org_scala_lang_scala_library".format(**configuration),
+                "@{scala_repo}//:org_scala_lang_scala_reflect".format(**configuration),
             ],
             default_repl_classpath = [
-                scala_repo + "//:org_scala_lang_scala_library",
-                scala_repo + "//:org_scala_lang_scala_reflect",
-                scala_repo + "//:org_scala_lang_scala_compiler",
+                "@{scala_repo}//:org_scala_lang_scala_library".format(**configuration),
+                "@{scala_repo}//:org_scala_lang_scala_reflect".format(**configuration),
+                "@{scala_repo}//:org_scala_lang_scala_compiler".format(**configuration),
             ],
             default_scalatest_classpath = [
-                scala_repo + "//:org_scalatest_scalatest_%s" % scala_version.replace(".", "_"),
-                scala_repo + "//:org_scalactic_scalactic_%s" % scala_version.replace(".", "_"),
-                # "//scala:scalatest-%s" % scala_version,
+                "@{scala_repo}//:org_scalatest_scalatest_{scala_mvn_version}".format(**configuration),
+                "@{scala_repo}//:org_scalactic_scalactic_{scala_mvn_version}".format(**configuration),
             ],
             visibility = ["//visibility:public"],
         )
+
+    if hasattr(configuration, "default"):
+        fail(configuration)
+
+        native.register_toolchains(":default_toolchain")
+        native.register_toolchains(":unused_dependency_checker_error_toolchain")
+
 
 def get_scala_toolchain(ctx):
     for target in ctx.attr.toolchains:
