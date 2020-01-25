@@ -24,7 +24,7 @@ def build():
                 "Resource.java",
                 "ScalaCInvoker.java",
             ] + [
-                (native.glob(["ScalacProcessor_{scala_mvn_version}.java".format(**configuration)]) + ["ScalacProcessor.java"])[0]
+                (native.glob(["ScalacProcessor_{scala_mvn_version}.java".format(**configuration)]) + ["ScalacProcessor.java"])[0],
             ],
             javacopts = [
                 "-source 1.8",

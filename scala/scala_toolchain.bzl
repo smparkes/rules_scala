@@ -35,6 +35,7 @@ scala_bootstrap_toolchain = rule(
         ),
     },
 )
+
 def _scala_toolchain_impl(ctx):
     toolchain = platform_common.ToolchainInfo(
         enable_code_coverage_aspect = ctx.attr.enable_code_coverage_aspect,

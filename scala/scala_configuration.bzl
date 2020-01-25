@@ -25,32 +25,31 @@ def _repo_impl(ctx):
 _repo = repository_rule(
     implementation = _repo_impl,
     attrs = {
-        "scala_configuration": attr.string(mandatory = True,),
+        "scala_configuration": attr.string(mandatory = True),
     },
 )
 
 def scala_configuration(_configuration = {}):
-
     configuration = _dicts.add(
         _default_scala_configuration,
-        _configuration
+        _configuration,
     )
 
     configuration["scala_versions"] = configuration["scala"].keys()
 
     scala_configuration = []
     scala_configuration.append("""load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")""")
-    scala_configuration.append("_value = "+struct(value = configuration).to_json().replace(":null,", ":None,"))
+    scala_configuration.append("_value = " + struct(value = configuration).to_json().replace(":null,", ":None,"))
     scala_configuration.append(
-"""
+        """
 def scala_configuration():
     configuration = _value["value"]
     # print(configuration)
     return configuration
-"""
+""",
     )
     scala_configuration.append(
-"""
+        """
 def scala_configured_string(string):
     return string.format(**scala_configuration())
 
@@ -86,7 +85,7 @@ def scala_version_configuration(version):
     # print(configuration)
 
     return configuration
-"""
+""",
     )
     scala_configuration.append("")
     _repo(

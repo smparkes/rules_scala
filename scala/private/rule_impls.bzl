@@ -13,7 +13,7 @@
 # limitations under the License.
 """Rules for supporting the Scala language."""
 
-load("//scala:toolchains.bzl", _get_scala_toolchain = "get_scala_toolchain",)
+load("//scala:toolchains.bzl", _get_scala_toolchain = "get_scala_toolchain")
 load(
     "@io_bazel_rules_scala//scala/private:coverage_replacements_provider.bzl",
     _coverage_replacements_provider = "coverage_replacements_provider",

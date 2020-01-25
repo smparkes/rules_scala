@@ -9,10 +9,10 @@ scala_binary(
     visibility = ["//visibility:public"],
     runtime_deps = [
         "@scala_2_11//:org_.scala_lang_modules_scala_parser_combinators_2_11",
+        "@scala_2_11//:org_scala_lang_modules_:scala_xml_2_11",
+        "@scala_2_11//:org_scala_lang_scala_compiler",
         "@scala_2_11//:org_scala_lang_scala_library",
         "@scala_2_11//:org_scala_lang_scala_reflect",
-        "@scala_2_11//:org_scala_lang_scala_compiler",
-        "@scala_2_11//:org_scala_lang_modules_:scala_xml_2_11",
     ],
 )
 
@@ -22,9 +22,9 @@ scala_binary(
     visibility = ["//visibility:public"],
     runtime_deps = [
         "@scala_2_12//:org_.scala_lang_modules_scala_parser_combinators_2_12",
+        "@scala_2_12//:org_scala_lang_modules_:scala_xml_2_12",
+        "@scala_2_12//:org_scala_lang_scala_compiler",
         "@scala_2_12//:org_scala_lang_scala_library",
         "@scala_2_12//:org_scala_lang_scala_reflect",
-        "@scala_2_12//:org_scala_lang_scala_compiler",
-        "@scala_2_12//:org_scala_lang_modules_:scala_xml_2_12",
     ],
 )

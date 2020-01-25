@@ -25,7 +25,6 @@ java_import(
     visibility = ["//visibility:public"],
 )
 
-
 java_library(
     name = "PlaceHolderClassToCreateEmptyJarForScalaImport",
     srcs = ["PlaceHolderClassToCreateEmptyJarForScalaImport.java"],
@@ -34,9 +33,9 @@ java_library(
 
 genrule(
     name = "pin",
-    srcs = [], #
-    tools = pin_targets(),
+    srcs = [],  #
     outs = ["pin.sh"],
+    cmd = "echo $(location tools)",
     executable = True,
-    cmd = "echo $(location tools)"
+    tools = pin_targets(),
 )

@@ -14,7 +14,7 @@ load(
     _compile_scala = "compile_scala",
     _expand_location = "expand_location",
 )
-load("//scala:toolchains.bzl", _get_scala_toolchain = "get_scala_toolchain",)
+load("//scala:toolchains.bzl", _get_scala_toolchain = "get_scala_toolchain")
 load(":resources.bzl", _resource_paths = "paths")
 
 _java_extension = ".java"

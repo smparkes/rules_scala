@@ -12,7 +12,7 @@ java_library(
     visibility = ["//visibility:private"],
     deps = [
         "@bazel_tools//tools/java/runfiles",
-        scala_configured_string("@{repo_prefix}exe//:com_google_guava_guava")
+        scala_configured_string("@{repo_prefix}exe//:com_google_guava_guava"),
     ],
 )
 

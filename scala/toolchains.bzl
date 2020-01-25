@@ -1,8 +1,8 @@
 load(
     ":scala_toolchain.bzl",
-    "scala_toolchain",
     "scala_bootstrap_toolchain",
-    "scalatest_toolchain"
+    "scala_toolchain",
+    "scalatest_toolchain",
 )
 load(
     ":providers.bzl",
@@ -89,7 +89,6 @@ def scala_toolchains():
 
         native.register_toolchains(":default_toolchain")
         native.register_toolchains(":unused_dependency_checker_error_toolchain")
-
 
 def get_scala_toolchain(ctx):
     for target in ctx.attr.toolchains:
