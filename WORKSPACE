@@ -128,6 +128,7 @@ local_repository(
 # scala_register_unused_deps_toolchains()
 
 load("//test/proto:BUILD.bzl", "register_scalabp_toolchains")
+
 register_scalabp_toolchains()
 
 load("//scala:scala_maven_import_external.bzl", "java_import_external", "scala_maven_import_external")

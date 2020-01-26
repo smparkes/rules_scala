@@ -162,7 +162,7 @@ _scala_library_for_plugin_bootstrapping_attrs.update(
 )
 
 _scala_library_for_plugin_bootstrapping_attrs.update(
-    { "_bootstrap": attr.bool(default = True) }
+    {"_bootstrap": attr.bool(default = True)},
 )
 
 def make_scala_library_for_plugin_bootstrapping(*extras):

@@ -10,6 +10,7 @@ load(
     "@io_bazel_rules_scala//scala/private:rules/scala_binary.bzl",
     _scala_binary = "scala_binary",
 )
+
 # load(
 #     "@io_bazel_rules_scala//scala/private:rules/scala_doc.bzl",
 #     _scala_doc = "scala_doc",
@@ -25,6 +26,7 @@ load(
     _scala_library_suite = "scala_library_suite",
     _scala_macro_library = "scala_macro_library",
 )
+
 # load(
 #     "@io_bazel_rules_scala//scala/private:rules/scala_repl.bzl",
 #     _scala_repl = "scala_repl",
@@ -50,12 +52,14 @@ load(
 
 # Re-export private rules for public consumption
 scala_binary = _scala_binary
+
 # scala_doc = _scala_doc
 # scala_junit_test = _scala_junit_test
 scala_library = _scala_library
 scala_library_for_plugin_bootstrapping = _scala_library_for_plugin_bootstrapping
 scala_library_suite = _scala_library_suite
 scala_macro_library = _scala_macro_library
+
 # scala_repl = _scala_repl
 # scala_repositories = _scala_repositories
 scala_test = _scala_test

@@ -29,6 +29,7 @@ load(
 
 def scala_proto_repositories():
     ret = scala_proto_default_repositories()
+
     # register_default_proto_dependencies()
     return ret
 

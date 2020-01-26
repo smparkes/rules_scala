@@ -1,11 +1,10 @@
 load("//scala:scala.bzl", "scala_library")
-
 load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
-    _scala_configuration = "scala_configuration",
-    _scala_version_configuration = "scala_version_configuration",
-    _scala_toolchain = "scala_toolchain",
     _jvm_external = "jvm_external",
+    _scala_configuration = "scala_configuration",
+    _scala_toolchain = "scala_toolchain",
+    _scala_version_configuration = "scala_version_configuration",
 )
 
 def build():
@@ -24,7 +23,7 @@ def build():
             visibility = ["//visibility:public"],
             deps = [
                 ":focused_zip_importer-{scala_major_version}".format(**configuration),
-            ] +  _jvm_external(configuration, "{scala_repo}", [
+            ] + _jvm_external(configuration, "{scala_repo}", [
                 "org.scala-lang.modules:scala-parser-combinators_{scala_major_version}",
             ]) + _jvm_external(configuration, "{repo_prefix}twitter_scrooge", [
                 "com.twitter:scrooge-generator_{scala_major_version}",

@@ -1,10 +1,10 @@
 load("//scala:scala.bzl", "scala_binary", "scala_library")
 load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
-    _scala_configuration = "scala_configuration",
-    _scala_version_configuration = "scala_version_configuration",
-    _scala_toolchain = "scala_toolchain",
     _jvm_external = "jvm_external",
+    _scala_configuration = "scala_configuration",
+    _scala_toolchain = "scala_toolchain",
+    _scala_version_configuration = "scala_version_configuration",
 )
 
 def build():
@@ -26,7 +26,7 @@ def build():
                 "//src/java/io/bazel/rulesscala/worker",
             ] + _jvm_external(configuration, "{repo_prefix}twitter_scrooge", [
                 "com.twitter:scrooge-generator_{scala_major_version}",
-            ])
+            ]),
         )
 
         scala_binary(
@@ -60,7 +60,7 @@ def build():
                 "com.thesamet.scalapb:protoc-bridge_{scala_major_version}",
                 "com.thesamet.scalapb:compilerplugin_{scala_major_version}",
                 "com.thesamet.scalapb:scalapbc_{scala_major_version}",
-            ])
+            ]),
         )
 
         scala_binary(

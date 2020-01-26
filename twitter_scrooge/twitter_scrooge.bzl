@@ -7,9 +7,10 @@
 load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
     _scala_configuration = "scala_configuration",
-    _scala_version_configuration = "scala_version_configuration",
     _scala_maven_install = "scala_maven_install",
+    _scala_version_configuration = "scala_version_configuration",
 )
+
 # load(
 #     "@io_bazel_rules_scala//scala:scala_maven_import_external.bzl",
 #     _scala_maven_import_external = "scala_maven_import_external",
@@ -20,7 +21,7 @@ load(
 )
 load("//scala/private:rule_impls.bzl", "compile_scala")
 load("//thrift:thrift_info.bzl", "ThriftInfo")
-load("@//thrift:thrift.bzl", "merge_thrift_infos",)
+load("@//thrift:thrift.bzl", "merge_thrift_infos")
 
 _jar_extension = ".jar"
 

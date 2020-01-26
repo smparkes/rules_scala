@@ -1,4 +1,5 @@
 load("//scala:scala.bzl", "scala_binary")
+
 # load(
 #     "//scala:scala_cross_version.bzl",
 #     "scala_mvn_artifact",
@@ -12,6 +13,7 @@ load(
 
 def tut_repositories():
     pass
+
 #     major_version = _extract_major_version(scala_version)
 
 #     scala_jar_shas = {

@@ -1,8 +1,8 @@
 load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
     _scala_configuration = "scala_configuration",
-    _scala_version_configuration = "scala_version_configuration",
     _scala_maven_install = "scala_maven_install",
+    _scala_version_configuration = "scala_version_configuration",
 )
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
 

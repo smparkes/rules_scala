@@ -26,7 +26,6 @@ def scala_toolchains():
         scalacopts = configuration["scalacopts"] if "scalacopts" in configuration else []
         unused_dependency_checker_mode = configuration["unused_dependency_checker_mode"] if "unused_dependency_checker_mode" in configuration else "off"
 
-
         scala_bootstrap_toolchain(
             name = "scala-{scala_major_version}-scala-bootstrap-toolchain".format(**configuration),
             scalac = "//src/java/io/bazel/rulesscala/scalac:scalac-{scala_major_version}".format(**configuration),

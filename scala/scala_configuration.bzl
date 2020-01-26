@@ -31,7 +31,7 @@ def _repo_impl(ctx):
     ctx.template(
         "scala_configuration.bzl",
         ctx.attr._template,
-        substitutions = {"%{CONFIGURATION_STRING}": ctx.attr.configuration_string}
+        substitutions = {"%{CONFIGURATION_STRING}": ctx.attr.configuration_string},
     )
 
 _repo = repository_rule(
@@ -40,7 +40,7 @@ _repo = repository_rule(
         "configuration_string": attr.string(mandatory = True),
         "_template": attr.label(
             default = ":scala_configuration.bzl.tpl",
-        )
+        ),
     },
 )
 
