@@ -1,2 +1,2 @@
-load(":BUILD.bzl", build())
+load(":BUILD.bzl", "build")
 build()

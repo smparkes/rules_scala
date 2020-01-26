@@ -29,17 +29,17 @@ scala_proto_toolchain = rule(
         "code_generator": attr.label(
             executable = True,
             cfg = "host",
-            default = Label("@io_bazel_rules_scala//src/scala/scripts:scalapb_generator"),
+            # default = Label("@io_bazel_rules_scala//src/scala/scripts:scalapb_generator"),
             allow_files = True,
         ),
         "named_generators": attr.string_dict(),
         "extra_generator_dependencies": attr.label_list(
             providers = [JavaInfo],
         ),
-        "scalac": attr.label(
-            default = Label(
-                "@io_bazel_rules_scala//src/java/io/bazel/rulesscala/scalac",
-            ),
-        ),
+        # "scalac": attr.label(
+        #     default = Label(
+        #         "@io_bazel_rules_scala//src/java/io/bazel/rulesscala/scalac",
+        #     ),
+        # ),
     },
 )

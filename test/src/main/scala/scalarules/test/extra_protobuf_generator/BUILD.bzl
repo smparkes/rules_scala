@@ -7,7 +7,7 @@ load(
     _jvm_external = "jvm_external",
 )
 
-def scala_proto_default_repositories():
+def build():
     scala_configuration = _scala_configuration()
 
     versions = scala_configuration["scala"]
@@ -20,8 +20,8 @@ def scala_proto_default_repositories():
             srcs = ["ExtraProtobufGenerator.scala"],
             visibility = ["//visibility:public"],
             deps =
-            _jvm_external("{repo_prefix}scala_pb", [
-                "com.thesamet.scalapb:protoc-bridge_{scala_major_version",
-                "com.thesamet.scalapb:compilerplugin_{scala_major_version}",
+            _jvm_external(configuration, "{repo_prefix}scala_pb", [
+                "com.thesamet.scalapb:protoc-bridge_{scala_major_version}".format(**configuration),
+                "com.thesamet.scalapb:compilerplugin_{scala_major_version}".format(**configuration),
             ]) + ["@com_google_protobuf//:protobuf_java"]
         )

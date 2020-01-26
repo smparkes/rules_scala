@@ -8,36 +8,7 @@ load(
     "scala_library",
     "scala_test",
 )
-load(
-    "//scala_proto:scala_proto_toolchain.bzl",
-    "scala_proto_toolchain",
-)
-
-scala_proto_toolchain(
-    name = "test_scala_proto_toolchain_configuration",
-    # with_java=True,
-    blacklisted_protos = [
-        "//test/proto:blacklisted_proto",
-        "//test/proto:other_blacklisted_proto",
-    ],
-    extra_generator_dependencies = [
-        "//test/src/main/scala/scalarules/test/extra_protobuf_generator",
-    ],
-    named_generators = {
-        "jvm_extra_protobuf_generator": "scalarules.test.extra_protobuf_generator.ExtraProtobufGenerator",
-    },
-    visibility = ["//visibility:public"],
-    with_flat_package = False,
-    with_grpc = True,
-    with_single_line_to_string = True,
-)
-
-toolchain(
-    name = "scalapb_toolchain",
-    toolchain = ":test_scala_proto_toolchain_configuration",
-    toolchain_type = "@io_bazel_rules_scala//scala_proto:toolchain_type",
-    visibility = ["//visibility:public"],
-)
+load(":BUILD.bzl", "build")
 
 proto_library(
     name = "blacklisted_proto",
