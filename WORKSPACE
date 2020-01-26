@@ -127,7 +127,7 @@ local_repository(
 
 # scala_register_unused_deps_toolchains()
 
-# register_toolchains("@io_bazel_rules_scala//test/proto:scalapb_toolchain")
+register_toolchains("@io_bazel_rules_scala//test/proto:scalapb_toolchain")
 
 load("//scala:scala_maven_import_external.bzl", "java_import_external", "scala_maven_import_external")
 
