@@ -22,6 +22,7 @@ def jvm_external(configuration, repo, strings):
     labels = []
     repo_prefix = "@%s//:" % repo.format(**configuration)
     for string in strings:
+        # print(string)
         labels.append(
             repo_prefix + string.format(**configuration).replace(".", "_").replace(":", "_").replace("-", "_")
         )

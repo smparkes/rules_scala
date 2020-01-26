@@ -60,9 +60,9 @@ load("//jmh:jmh.bzl", "jmh_repositories")
 
 jmh_repositories()
 
-# load("//scala_proto:scala_proto.bzl", "scala_proto_repositories")
+load("//scala_proto:scala_proto.bzl", "scala_proto_repositories")
 
-# scala_proto_repositories()
+scala_proto_repositories()
 
 # load("//specs2:specs2_junit.bzl", "specs2_junit_repositories")
 

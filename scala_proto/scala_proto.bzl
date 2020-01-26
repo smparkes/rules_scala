@@ -27,12 +27,10 @@ load(
 #             actual = "@io_bazel_rules_scala//scala_proto:default_scalapb_compile_dependencies",
 #         )
 
-# def scala_proto_repositories(
-#         scala_version = _default_scala_version(),
-#         maven_servers = ["https://repo.maven.apache.org/maven2"]):
-#     ret = scala_proto_default_repositories(scala_version, maven_servers)
-#     register_default_proto_dependencies()
-#     return ret
+def scala_proto_repositories():
+    ret = scala_proto_default_repositories()
+    # register_default_proto_dependencies()
+    return ret
 
 def _scala_proto_library_impl(ctx):
     aspect_info = merge_scalapb_aspect_info(

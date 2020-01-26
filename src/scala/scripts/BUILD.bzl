@@ -20,12 +20,13 @@ def build():
             srcs = ["TwitterScroogeGenerator.scala"],
             visibility = ["//visibility:public"],
             deps = [
-                # "//external:io_bazel_rules_scala/dependency/thrift/scrooge_generator",
+                "//src/scala/io/bazel/rules_scala/scrooge_support:compiler-{scala_major_version}".format(**configuration),
                 "//src/java/io/bazel/rulesscala/io_utils",
                 "//src/java/io/bazel/rulesscala/jar",
                 "//src/java/io/bazel/rulesscala/worker",
-                "//src/scala/io/bazel/rules_scala/scrooge_support:compiler",
-            ],
+            ] + _jvm_external(configuration, "{repo_prefix}twitter_scrooge", [
+                "com.twitter:scrooge-generator_{scala_major_version}",
+            ])
         )
 
         scala_binary(
@@ -48,17 +49,18 @@ def build():
             srcs = ["ScalaPBGenerator.scala"],
             visibility = ["//visibility:public"],
             runtime_deps = [
-                "//external:io_bazel_rules_scala/dependency/com_google_protobuf/protobuf_java",
+                "@com_google_protobuf//:protobuf_java",
             ],
             deps = [
-                ":scala_proto_request_extractor-{scala_major_version}",
-                "//external:io_bazel_rules_scala/dependency/proto/protoc_bridge",
-                "//external:io_bazel_rules_scala/dependency/proto/scalapb_plugin",
-                "//external:io_bazel_rules_scala/dependency/proto/scalapbc",
+                ":scala_proto_request_extractor-{scala_major_version}".format(**configuration),
                 "//src/java/io/bazel/rulesscala/io_utils",
                 "//src/java/io/bazel/rulesscala/jar",
                 "//src/java/io/bazel/rulesscala/worker",
-            ],
+            ] + _jvm_external(configuration, "{repo_prefix}scala_pb", [
+                "com.thesamet.scalapb:protoc-bridge_{scala_major_version}",
+                "com.thesamet.scalapb:compilerplugin_{scala_major_version}",
+                "com.thesamet.scalapb:scalapbc_{scala_major_version}",
+            ])
         )
 
         scala_binary(
