@@ -1,5 +1,6 @@
 # -*- mode: python -*-
 
+load("@rules_jvm_external//:defs.bzl", _maven_install = "maven_install")
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
 
 _dict = %{CONFIGURATION_STRING}
@@ -73,3 +74,24 @@ def scala_version_configuration(version):
     # print(configuration)
 
     return configuration
+
+def maven_install(
+        configuration,
+        name,
+        artifacts,
+        repositories = None,
+        version_conflict_policy = None,
+        maven_install_json = None,
+):
+    resolved = {}
+    resolved["name"] = name.format(**configuration)
+    resolved["repositories"] = repositories if repositories else configuration["repositories"]
+    resolved["version_conflict_policy"] = version_conflict_policy if version_conflict_policy else configuration["version_conflict_policy"]
+    resolved["maven_install_json"] = maven_install_json if maven_install_json else configuration["maven_install_json"]
+
+    resolved["artifacts"] = []
+
+    for artifact in artifacts:
+        resolved["artifacts"].append(artifact.format(**configuration))
+
+    _maven_install(**resolved)

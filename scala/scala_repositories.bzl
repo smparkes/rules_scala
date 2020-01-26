@@ -2,8 +2,9 @@ load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
     _scala_configuration = "scala_configuration",
     _scala_version_configuration = "scala_version_configuration",
+    _maven_install = "maven_install",
 )
-load("@rules_jvm_external//:defs.bzl", _maven_install = "maven_install")
+# load("@rules_jvm_external//:defs.bzl", _maven_install = "maven_install")
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
 
 def scala_repositories():
@@ -15,56 +16,46 @@ def scala_repositories():
         configuration = _scala_version_configuration(version)
 
         _maven_install(
-            name = configuration["scala_repo"],
+            configuration = configuration,
+            name = "{scala_repo}",
             artifacts = [
-                "org.scala-lang:scala-compiler:{scala_version}".format(**configuration),
-                "org.scala-lang:scala-library:{scala_version}".format(**configuration),  #
-                "org.scala-lang:scala-reflect:{scala_version}".format(**configuration),
-                "org.scalatest:scalatest_{scala_major_version}:{scalatest}".format(**configuration),
-                "org.scalactic:scalactic_{scala_major_version}:{scalatest}".format(**configuration),
-                "org.scala-lang.modules:scala-xml_{scala_major_version}:{scala-xml}".format(**configuration),
-                "org.scala-lang.modules:scala-parser-combinators_{scala_major_version}:{scala-parser-combinators}".format(**configuration),
+                "org.scala-lang:scala-compiler:{scala_version}",
+                "org.scala-lang:scala-library:{scala_version}",
+                "org.scala-lang:scala-reflect:{scala_version}",
+                "org.scalatest:scalatest_{scala_major_version}:{scalatest}",
+                "org.scalactic:scalactic_{scala_major_version}:{scalatest}",
+                "org.scala-lang.modules:scala-xml_{scala_major_version}:{scala-xml}",
+                "org.scala-lang.modules:scala-parser-combinators_{scala_major_version}:{scala-parser-combinators}",
             ],
-            repositories = configuration["repositories"],
-            version_conflict_policy = configuration["version_conflict_policy"],
-            maven_install_json = configuration["maven_install_json"],
         )
 
-    repo_prefix = scala_configuration["repo_prefix"]
-    repositories = scala_configuration["repositories"]
-    version_conflict_policy = scala_configuration["version_conflict_policy"]
     maven_install_json_prefix = scala_configuration["maven_install_json_prefix"]
 
-    # print("A", maven_install_json_prefix + "scalac" + ".json")
-
     _maven_install(
-        name = repo_prefix + "scalac",
+        configuration = configuration,
+        name = "{repo_prefix}scalac",
         artifacts = [
             "commons-io:commons-io:2.6",
         ],
-        repositories = repositories,
-        version_conflict_policy = version_conflict_policy,
-        maven_install_json = maven_install_json_prefix + repo_prefix + "scalac" + ".json" if maven_install_json_prefix else None,
+        maven_install_json = "{maven_install_json_prefix}{repo_prefix}scalac.json" if maven_install_json_prefix else None,
     )
 
     _maven_install(
-        name = repo_prefix + "worker",
+        configuration = configuration,
+        name = "{repo_prefix}worker",
         artifacts = [
             "com.google.protobuf:protobuf-java:3.11.1",
         ],
-        repositories = repositories,
-        version_conflict_policy = version_conflict_policy,
-        maven_install_json = maven_install_json_prefix + repo_prefix + "worker" + ".json" if maven_install_json_prefix else None,
+        maven_install_json = "{maven_install_json_prefix}{repo_prefix}worker.json" if maven_install_json_prefix else None,
     )
 
     _maven_install(
-        name = repo_prefix + "exe",
+        configuration = configuration,
+        name = "{repo_prefix}exe",
         artifacts = [
             "com.google.guava:guava:27.1-jre",
         ],
-        repositories = repositories,
-        version_conflict_policy = version_conflict_policy,
-        maven_install_json = maven_install_json_prefix + repo_prefix + "exe" + ".json" if maven_install_json_prefix else None,
+        maven_install_json = "{maven_install_json_prefix}{repo_prefix}exe.json" if maven_install_json_prefix else None,
     )
 
     default_version = scala_configuration["default"]

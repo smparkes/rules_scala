@@ -43,9 +43,9 @@ load("@com_github_bazelbuild_buildtools//buildifier:deps.bzl", "buildifier_depen
 
 buildifier_dependencies()
 
-load("//scala:scala.bzl", "scala_repositories")
+# load("//scala:scala.bzl", "scala_repositories")
 
-scala_repositories()
+# scala_repositories()
 
 load("//scala:scala_maven_import_external.bzl", "scala_maven_import_external")
 load("//twitter_scrooge:twitter_scrooge.bzl", "scrooge_scala_library", "twitter_scrooge")
