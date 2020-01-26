@@ -52,5 +52,5 @@ scala_proto_library = rule(
     provides = [DefaultInfo, ScalaPBInfo, JavaInfo],
 )
 
-# def scalapb_proto_library(**kwargs):
-#     scala_proto_library(**kwargs)
+def scalapb_proto_library(**kwargs):
+    scala_proto_library(**kwargs)

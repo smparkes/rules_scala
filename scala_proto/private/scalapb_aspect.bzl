@@ -4,6 +4,7 @@ load(
 )
 load("//scala/private:rule_impls.bzl", "compile_scala")
 load("//scala_proto/private:proto_to_scala_src.bzl", "proto_to_scala_src")
+load("//scala_proto:toolchains.bzl", _get_scala_proto_toolchain = "get_scala_proto_toolchain")
 
 ScalaPBAspectInfo = provider(fields = [
     "proto_info",
@@ -20,13 +21,6 @@ ScalaPBImport = provider(fields = [
 ScalaPBInfo = provider(fields = [
     "aspect_info",
 ])
-
-def get_provider(ctx):
-    if ctx.attr.toolchain:
-        return ctx.attr.toolchain[platform_common.ToolchainInfo]
-    else:
-        # print("F using default for", ctx)
-        return ctx.toolchains["@io_bazel_rules_scala//scala:toolchain_type"]
 
 def merge_proto_infos(tis):
     return struct(
@@ -140,7 +134,7 @@ def _scalapb_aspect_impl(target, ctx):
         compile_protos = sorted(target_ti.direct_sources)
         transitive_protos = sorted(target_ti.transitive_sources.to_list())
 
-        toolchain = get_provider(ctx)
+        toolchain = _get_scala_proto_toolchain(ctx)
         flags = []
         imps = [j[JavaInfo] for j in ctx.attr._implicit_compile_deps]
 
@@ -235,12 +229,12 @@ scalapb_aspect = aspect(
     ],
     attrs = {
         "_protoc": attr.label(executable = True, cfg = "host", default = "@com_google_protobuf//:protoc"),
-        "_implicit_compile_deps": attr.label_list(cfg = "target", default = [
-            "//external:io_bazel_rules_scala/dependency/proto/implicit_compile_deps",
-        ]),
-        "_grpc_deps": attr.label_list(cfg = "target", default = [
-            "//external:io_bazel_rules_scala/dependency/proto/grpc_deps",
-        ]),
+        # "_implicit_compile_deps": attr.label_list(cfg = "target", default = [
+        #     "//external:io_bazel_rules_scala/dependency/proto/implicit_compile_deps",
+        # ]),
+        # "_grpc_deps": attr.label_list(cfg = "target", default = [
+        #     "//external:io_bazel_rules_scala/dependency/proto/grpc_deps",
+        # ]),
     },
     toolchains = [
         "@io_bazel_rules_scala//scala:toolchain_type",

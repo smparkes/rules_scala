@@ -9,6 +9,7 @@ load(
     "scala_test",
 )
 load(":BUILD.bzl", "build")
+build()
 
 proto_library(
     name = "blacklisted_proto",

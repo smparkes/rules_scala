@@ -24,7 +24,7 @@ def build():
                 "//test/proto:other_blacklisted_proto",
             ],
             extra_generator_dependencies = [
-                "//test/src/main/scala/scalarules/test/extra_protobuf_generator",
+                "//test/src/main/scala/scalarules/test/extra_protobuf_generator:extra_protobuf_generator-{scala_major_version}".format(**configuration),
             ],
             named_generators = {
                 "jvm_extra_protobuf_generator": "scalarules.test.extra_protobuf_generator.ExtraProtobufGenerator",
@@ -37,7 +37,7 @@ def build():
 
         native.toolchain(
             name = "scalapb_toolchain-{scala_major_version}".format(**configuration),
-            toolchain = ":test_scala_proto_toolchain_configuration",
+            toolchain = ":test_scala_proto_toolchain_configuration-{scala_major_version}".format(**configuration),
             toolchain_type = "@io_bazel_rules_scala//scala_proto:toolchain_type",
             visibility = ["//visibility:public"],
         )
