@@ -2,9 +2,8 @@ load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
     _scala_configuration = "scala_configuration",
     _scala_version_configuration = "scala_version_configuration",
-    _maven_install = "maven_install",
+    _scala_maven_install = "scala_maven_install",
 )
-# load("@rules_jvm_external//:defs.bzl", _maven_install = "maven_install")
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
 
 def scala_repositories():
@@ -15,7 +14,7 @@ def scala_repositories():
     for version in versions:
         configuration = _scala_version_configuration(version)
 
-        _maven_install(
+        _scala_maven_install(
             configuration = configuration,
             name = "{scala_repo}",
             artifacts = [
@@ -31,7 +30,7 @@ def scala_repositories():
 
     maven_install_json_prefix = scala_configuration["maven_install_json_prefix"]
 
-    _maven_install(
+    _scala_maven_install(
         configuration = configuration,
         name = "{repo_prefix}scalac",
         artifacts = [
@@ -40,7 +39,7 @@ def scala_repositories():
         maven_install_json = "{maven_install_json_prefix}{repo_prefix}scalac.json" if maven_install_json_prefix else None,
     )
 
-    _maven_install(
+    _scala_maven_install(
         configuration = configuration,
         name = "{repo_prefix}worker",
         artifacts = [
@@ -49,7 +48,7 @@ def scala_repositories():
         maven_install_json = "{maven_install_json_prefix}{repo_prefix}worker.json" if maven_install_json_prefix else None,
     )
 
-    _maven_install(
+    _scala_maven_install(
         configuration = configuration,
         name = "{repo_prefix}exe",
         artifacts = [

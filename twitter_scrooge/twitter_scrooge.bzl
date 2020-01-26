@@ -8,6 +8,7 @@ load(
     "@io_bazel_rules_scala_configuration//:scala_configuration.bzl",
     _scala_configuration = "scala_configuration",
     _scala_version_configuration = "scala_version_configuration",
+    _scala_maven_install = "maven_install",
 )
 load(
     "@io_bazel_rules_scala//scala:scala_maven_import_external.bzl",

@@ -75,7 +75,7 @@ def scala_version_configuration(version):
 
     return configuration
 
-def maven_install(
+def scala_maven_install(
         configuration,
         name,
         artifacts,
