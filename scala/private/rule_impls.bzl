@@ -185,6 +185,8 @@ StatsfileOutput: {statsfile_output}
         content = scalac_args + optional_scalac_args,
     )
 
+    fail(ctx)
+
     scalac_inputs, _, scalac_input_manifests = ctx.resolve_command(
         tools = [scalac],
     )

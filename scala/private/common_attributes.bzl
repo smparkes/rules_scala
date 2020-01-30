@@ -98,16 +98,16 @@ implicit_deps = {
     "_java_runtime": attr.label(
         default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
     ),
-    "_scalac": attr.label(
-        default = Label(
-            "@io_bazel_rules_scala//src/java/io/bazel/rulesscala/scalac",
-        ),
-    ),
-    "_exe": attr.label(
-        executable = True,
-        cfg = "host",
-        default = Label("@io_bazel_rules_scala//src/java/io/bazel/rulesscala/exe:exe"),
-    ),
+    # "_scalac": attr.label(
+    #     default = Label(
+    #         "@io_bazel_rules_scala//src/java/io/bazel/rulesscala/scalac",
+    #     ),
+    # ),
+    # "_exe": attr.label(
+    #     executable = True,
+    #     cfg = "host",
+    #     default = Label("@io_bazel_rules_scala//src/java/io/bazel/rulesscala/exe:exe"),
+    # ),
 }
 
 launcher_template = {
